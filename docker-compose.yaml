@@ -4,9 +4,32 @@ services:
   proxy:
     build: .
     container_name: proxy
-    network_mode: "host"
     environment:
       - PORT=3005
-      - SERVER=localhost:3002
+      - SERVER=s1:80
     volumes:
       - ./entrypoint.sh:/entrypoint.sh
+    ports:
+      - 0.0.0.0:3005:3005
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    depends_on:
+      - s1
+      - s2
+
+  s1:
+    image: nginx:latest
+    container_name: s1
+    volumes:
+      - ./example/s1:/usr/share/nginx/html
+    ports:
+      - 0.0.0.0:3001:80
+
+  s2:
+    image: nginx:latest
+    container_name: s2
+    volumes:
+      - ./example/s2:/usr/share/nginx/html
+    ports:
+    - 0.0.0.0:3002:80
