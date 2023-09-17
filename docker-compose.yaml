@@ -4,7 +4,9 @@ services:
   proxy:
     build: .
     container_name: proxy
+    network_mode: "host"
+    environment:
+      - PORT=3005
+      - SERVER=localhost:3002
     volumes:
       - ./entrypoint.sh:/entrypoint.sh
-    ports:
-      - 0.0.0.0:3000:80
