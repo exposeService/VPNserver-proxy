@@ -1,7 +1,5 @@
-FROM nginx:mainline-alpine
+FROM nginx:latest
 
-RUN apk add -U --no-cache\
-  wireguard-tools
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
