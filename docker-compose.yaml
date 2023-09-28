@@ -4,13 +4,17 @@ services:
   proxy:
     build: .
     container_name: proxy
+    network_mode: host
     environment:
       - PORT=3005
-      - SERVER=s1:80
+      - SERVER=192.168.64.3:3002
     volumes:
       - ./entrypoint.sh:/entrypoint.sh
-    ports:
-      - 0.0.0.0:3005:3005
+      - ./wg0.conf:/etc/wireguard/wg0.conf
+      - ./boringtun-cli:/usr/local/bin/boringtun
+    # ports:
+    #   - 0.0.0.0:3005:3005
+    #   - 0.0.0.0:51820:51820/udp
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
